@@ -75,18 +75,13 @@ fun all_answers f xs =
 	let
 		fun all_answers_acc (xs, acc) = 
 			case xs of 
-				[] => (
-					case acc of 
-						[] => NONE
-						| acc_ => SOME acc_)
-				| x::xs_ => (
+				[] => SOME acc
+				| x::xs_ => 
 					case f(x) of 
-						NONE => all_answers_acc(xs_, acc)
-						| SOME v => all_answers_acc(xs_, acc @ v))
+						NONE => NONE
+						| SOME v => all_answers_acc(xs_, acc @ v)
 	in 
-		case xs of 
-			[] => SOME []
-			| xs_ => all_answers_acc(xs_, [])
+		all_answers_acc(xs, [])
 	end
 
 (* 9 *)
