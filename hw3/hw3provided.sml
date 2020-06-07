@@ -75,18 +75,13 @@ fun all_answers f xs =
 	let
 		fun all_answers_acc (xs, acc) = 
 			case xs of 
-				[] => (
-					case acc of 
-						[] => NONE
-						| acc_ => SOME acc_)
-				| x::xs_ => (
+				[] => SOME acc
+				| x::xs_ => 
 					case f(x) of 
-						NONE => all_answers_acc(xs_, acc)
-						| SOME v => all_answers_acc(xs_, acc @ v))
+						NONE => NONE
+						| SOME v => all_answers_acc(xs_, acc @ v)
 	in 
-		case xs of 
-			[] => SOME []
-			| xs_ => all_answers_acc(xs_, [])
+		all_answers_acc(xs, [])
 	end
 
 (* 9 *)
@@ -130,7 +125,6 @@ fun first_match v ps =
 	(SOME (first_answer (fn p => match(v, p)) ps)) handle NoAnswer => NONE
 
 
-(*
 val test1 = only_capitals ["A","B","C"] = ["A","B","C"]
 val test2 = longest_string1 ["A","bc","C"] = "bc"
 val test2_1 = longest_string1 ["A","bc","BC"] = "bc"
@@ -170,7 +164,6 @@ val test12 = first_match Unit [UnitP] = SOME []
 val test12_1 = first_match Unit [ConstP 1] = NONE
 val test12_2 = first_match Unit [ConstP 1] = NONE
 val test12_3 = first_match (Tuple [Const(1), Unit]) [TupleP [Variable("x"), Variable("y")]] = SOME [("x",Const(1)), ("y", Unit)]
-*)
 
 
 
